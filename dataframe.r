@@ -1,13 +1,13 @@
-setwd("C:\\Users\\s174300\\Documents\\00 DTU\\5. semester\\02445 Project in statistics\\Projects")
+setwd("/home/nker/OneDrive/Bsc/02445 projekt i statistisk evaluering af kunstig inteligens/02445-Projekt/")
 load("armdata.RData")
 
-#eksperiment (1-16), person (1-10), gentagelse (1-10)
-armdata[[11]][[1]][[1]] #eksperiment 11, person 1, gentagelse 1
-armdata[[11]][[1]][[1]][1,] #eksperiment 11, person 1, gentagelse 1, position 1
-armdata[[11]][[1]][[1]][,1] #eksperiment 11, person 1, gentagelse 1, alle x-v�rdier
+# eksperiment (1-16), person (1-10), gentagelse (1-10)
+# armdata[[11]][[1]][[1]] #eksperiment 11, person 1, gentagelse 1
+# armdata[[11]][[1]][[1]][1,] #eksperiment 11, person 1, gentagelse 1, position 1
+# armdata[[11]][[1]][[1]][,1] #eksperiment 11, person 1, gentagelse 1, alle x-v?rdier
 
-plot(armdata[[11]][[1]][[1]][,1], armdata[[11]][[1]][[1]][,3]) #x=xpos, y=zpos
-summary(armdata[[11]][[1]][[1]][,1])
+#plot(armdata[[11]][[1]][[1]][,1], armdata[[11]][[1]][[1]][,3]) #x=xpos, y=zpos
+#summary(armdata[[11]][[1]][[1]][,1])
 
 #setting up the dataframe
 person <- c()
@@ -28,3 +28,10 @@ for(i in 1:10){
 }
 df <- data.frame(person, repetition, step, x.loc, y.loc, z.loc)
 
+apply(df,2,function(x) sum(is.na(x))) # er der missin values?
+# Vi ser person  mangler data punkter på repetition 1 step 1 og 2, derfor ændres disse til step 3
+df[8001:8002,]$x.loc = df[8003,]$x.loc
+df[8001:8002,]$y.loc = df[8003,]$y.loc
+df[8001:8002,]$z.loc = df[8003,]$z.loc
+
+save(df, file="df.RData")
