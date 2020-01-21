@@ -1,13 +1,5 @@
-setwd("/home/nker/OneDrive/Bsc/02445 projekt i statistisk evaluering af kunstig inteligens/02445-Projekt/")
+setwd("C:\\Users\\s174300\\Documents\\00 DTU\\5. semester\\02445 Project in statistics\\02445-Projekt")
 load("armdata.RData")
-
-# eksperiment (1-16), person (1-10), gentagelse (1-10)
-# armdata[[11]][[1]][[1]] #eksperiment 11, person 1, gentagelse 1
-# armdata[[11]][[1]][[1]][1,] #eksperiment 11, person 1, gentagelse 1, position 1
-# armdata[[11]][[1]][[1]][,1] #eksperiment 11, person 1, gentagelse 1, alle x-v?rdier
-
-#plot(armdata[[11]][[1]][[1]][,1], armdata[[11]][[1]][[1]][,3]) #x=xpos, y=zpos
-#summary(armdata[[11]][[1]][[1]][,1])
 
 #setting up the dataframe
 person <- c()
