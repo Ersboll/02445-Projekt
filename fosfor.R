@@ -4,12 +4,12 @@ summary(Phosphorous)
 apply(Phosphorous,2,function(x) sum(is.na(x))) # er der missin values?
 
 # Imputation
-#phos.data = Phosphorous[ which(!is.na(Phosphorous$yield)), ]
-phos.data = Phosphorous
-phos.data[c(34,36),2] = rep(mean(phos.data$yield[which(phos.data$location == "011")], na.rm = T), 2)
-phos.data$location = as.factor(phos.data$location)
+phos.data = Phosphorous[ which(!is.na(Phosphorous$yield)), ]
+#phos.data = Phosphorous
+#phos.data[c(34,36),2] = rep(mean(phos.data$yield[which(phos.data$location == "011")], na.rm = T), 2)
+#phos.data$location = as.factor(phos.data$location)
 
-plot(phos.data$DGT, phos.data$olsenP, xlab = "μg/L phosphate measurement with DGT", ylab = "hkg barley yield", main = "Barley yield to phosphate measurement with DGT", xlim=c(0, max(phos.data$DGT)))
+plot(phos.data$DGT, phos.data$yield, xlab = "μg/L phosphate measurement with DGT", ylab = "hkg barley yield", main = "Barley yield to phosphate measurement with DGT", xlim=c(0, max(phos.data$DGT)))
 plot(phos.data$olsenP, phos.data$yield, xlab = "mg/100g phosphate measurement with Olsen P", ylab = "hkg barley yield", main = "Barley yield to phosphate measurement with Olsen P", xlim=c(0, max(phos.data$olsenP)))
 
 phos.model.DGT <- nls(yield ~ alpha * DGT/(beta + DGT), data=phos.data, start=list(alpha=90, beta=1))
@@ -82,7 +82,7 @@ beta.p = c()
 for(i in c("001","002","003","004","006","007","008","010","011")){
   temp.data = phos.data[which(phos.data$location != i),]
   temp.model.DGT <- nls(yield ~ alpha * DGT/(beta + DGT), data=temp.data, start=list(alpha=90, beta=1))
-  plot(temp.data$DGT, temp.data$yield, xlab = "μg/L phosphate DGT measurement", ylab = "hkg barley yield", main = paste("Removed location:",i),xlim=c(0, max(temp.data$DGT)))
+  plot(temp.data$DGT, temp.data$yield, xlab = "μg/L phosphate DGT measurement", ylab = "hkg barley yield", main = paste("Removed field:",i),xlim=c(0, max(temp.data$DGT)))
   DGT.x = seq(from = 0, to = max(temp.data$DGT), length.out = 100)
   y = predict(temp.model.DGT, list(DGT = DGT.x))
   lines(DGT.x, y, col="red")
@@ -103,7 +103,7 @@ beta.p = c()
 for(i in c("001","002","003","004","006","007","008","010","011")){
   temp.data = phos.data[which(phos.data$location != i),]
   temp.model.olsenP <- nls(yield ~ alpha * olsenP/(beta + olsenP), data=temp.data, start=list(alpha=90, beta=1))
-  plot(temp.data$olsenP, temp.data$yield, xlab = "μg/L phosphate olsenP measurement", ylab = "hkg barley yield", main = paste("Removed location:",i),xlim=c(0, max(temp.data$olsenP)))
+  plot(temp.data$olsenP, temp.data$yield, xlab = "μg/L phosphate olsenP measurement", ylab = "hkg barley yield", main = paste("Removed field:",i),xlim=c(0, max(temp.data$olsenP)))
   olsenP.x = seq(from = 0, to = max(temp.data$olsenP), length.out = 100)
   y = predict(temp.model.olsenP, list(olsenP = olsenP.x))
   lines(olsenP.x, y, col="red")
