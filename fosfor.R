@@ -4,10 +4,10 @@ summary(Phosphorous)
 apply(Phosphorous,2,function(x) sum(is.na(x))) # er der missin values?
 
 # Imputation
-phos.data = Phosphorous[ which(!is.na(Phosphorous$yield)), ]
-#phos.data = Phosphorous
-#phos.data[c(34,36),2] = rep(mean(phos.data$yield[which(phos.data$location == "011")], na.rm = T), 2)
-#phos.data$location = as.factor(phos.data$location)
+#phos.data = Phosphorous[ which(!is.na(Phosphorous$yield)), ]
+phos.data = Phosphorous
+phos.data[c(34,36),2] = rep(mean(phos.data$yield[which(phos.data$location == "011")], na.rm = T), 2)
+phos.data$location = as.factor(phos.data$location)
 
 plot(phos.data$DGT, phos.data$yield, xlab = "μg/L phosphate measurement with DGT", ylab = "hkg barley yield", main = "Barley yield to phosphate measurement with DGT", xlim=c(0, max(phos.data$DGT)))
 plot(phos.data$olsenP, phos.data$yield, xlab = "mg/100g phosphate measurement with Olsen P", ylab = "hkg barley yield", main = "Barley yield to phosphate measurement with Olsen P", xlim=c(0, max(phos.data$olsenP)))
@@ -48,19 +48,6 @@ plot(fitted(phos.model.DGT), resid(phos.model.DGT), xlab = "Fitted yield with DG
 plot(fitted(phos.model.olsenP), resid(phos.model.olsenP), xlab = "Fitted yield with Olsen P measurement", ylab = "Residuals", main = "Residuals vs Fitted yield with Olsen P measurements")
 
 plot(fitted(phos.model.DGT)[which(phos.data$location != "011")], resid(phos.model.DGT)[which(phos.data$location != "011")], xlab = "Fitted yield with DGT measurement", ylab = "Residuals", main = "Residuals vs Fitted yield with DGT measurements")
-
-
-
-## Gennemsnit
-phos.data.n = aggregate(phos.data[,2:4], list(phos.data$location), mean)
-
-phos.data.n$location = as.factor(phos.data.n$Group.1)
-
-phos.model.DGT.n <- nls(yield ~ alpha * DGT/(beta + DGT), data=phos.data.n, start=list(alpha=90, beta=1))
-phos.model.olsenP.n <- nls(yield ~ alpha * olsenP/(beta + olsenP), data=phos.data.n, start=list(alpha=90, beta=1))
-
-DGT.args = phos.model.DGT.n$m$getPars()
-olsenP.args = phos.model.olsenP.n$m$getPars()
 
 # DGT
 plot(phos.data.n$DGT, phos.data.n$yield, xlab = "μg/L phosphate measurement with DGT", ylab = "hkg barley yield", main = "Barley yield to phosphate measurement with DGT")
